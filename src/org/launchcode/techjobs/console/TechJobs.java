@@ -1,5 +1,6 @@
 package org.launchcode.techjobs.console;
 
+import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -8,6 +9,14 @@ import java.util.Scanner;
  * Created by LaunchCode
  */
 public class TechJobs {
+
+    public String positionType;
+    private String name;
+    private String employer;
+    private String location;
+    private String coreCompetency;
+
+
 
     private static Scanner in = new Scanner(System.in);
 
@@ -39,6 +48,7 @@ public class TechJobs {
 
                 if (columnChoice.equals("all")) {
                     printJobs(JobData.findAll());
+
                 } else {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
@@ -110,7 +120,11 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        //needs to print out all jobs from csv file
+        ArrayList<HashMap<String, String>> results = someJobs;
+        for(int i = 0; i < results.size(); i++) {
+            System.out.println("\n" + results.get(i));
+        }
 
-        System.out.println("printJobs is not implemented yet");
     }
 }
