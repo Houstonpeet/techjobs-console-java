@@ -70,8 +70,9 @@ public class TechJobs {
                 // What is their search term?
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
-
-                if (searchField.equals("all")) {
+                if (!columnChoices.containsValue(searchTerm)) {
+                    System.out.println("Jobs not found");
+                } else if (searchField.equals("all")) {
                     System.out.println("Search all fields not yet implemented.");
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
@@ -121,9 +122,7 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-        //needs to print out all jobs from csv file
-        //for each loop
-        //change i to something more specific
+
         for(HashMap<String, String> jobs : someJobs) {
             System.out.println("*****");
             for (HashMap.Entry<String, String> jobDescriptions : jobs.entrySet()) {
