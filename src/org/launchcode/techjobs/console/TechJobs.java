@@ -40,20 +40,20 @@ public class TechJobs {
 
         // Allow the user to search until they manually quit
         while (true) {
+            String actionChoice = "";
 
-            String actionChoice = getUserSelection("View jobs by:", actionChoices);
+            while(!actionChoices.containsKey(actionChoice))  {
+                actionChoice = getUserSelection("View jobs by:", actionChoices);
+            }
 
             if (actionChoice.equals("list")) {
-
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
                     printJobs(JobData.findAll());
 
                 } else {
-
                     ArrayList<String> results = JobData.findAll(columnChoice);
-
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
                     // Print list of skills, employers, etc
@@ -63,25 +63,27 @@ public class TechJobs {
                 }
 
             } else { // choice is "search"
+                 String searchField = "";
 
                 // How does the user want to search (e.g. by skill or employer)
-                String searchField = getUserSelection("Search by:", columnChoices);
+                while(!columnChoices.containsKey(searchField)) {
+                    searchField = getUserSelection("Search by:", columnChoices);
+                }
 
                 // What is their search term?
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
-                if (!columnChoices.containsValue(searchTerm)) {
-                    System.out.println("Jobs not found");
-                } else if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                ArrayList<HashMap<String, String>> foundJobs = JobData.findByValue(searchTerm, searchField);
+                if (foundJobs.size() > 0) {
+                    printJobs(foundJobs);
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+                    System.out.println("No jobs found");
                 }
             }
         }
     }
 
-    // ﻿Returns the key of the selected item from the choices Dictionary
+    // Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
         Integer choiceIdx;
@@ -129,9 +131,7 @@ public class TechJobs {
                 System.out.println(jobDescriptions.getKey() + ": " + jobDescriptions.getValue());
 
             }
-            System.out.println("*****");
-
-           // System.out.println(jobs);
+            System.out.println("*****" + "\n");
         }
 
     }
